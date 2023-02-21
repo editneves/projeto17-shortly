@@ -16,12 +16,12 @@ export async function validSchemaSignUp(req, res, next) {
     return res.status(422).send({ errors });
   }
 
-  const emailExist = await db.query("SELECT * FROM signUp WHERE email=$1", [
-    signUp.email,
+  const emailExist = await db.query("SELECT * FROM user WHERE email=$1", [
+    user.email,
   ]);
 
   if (emailExist.rowCount !== 0) return res.sendStatus(409);
-
+// se a contagem de linhas for diferente de 0 teurn status 409, já cadastrado
   res.locals.signUp = signUp;
 
   next();

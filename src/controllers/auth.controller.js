@@ -7,7 +7,7 @@ export async function signUp(req, res) {
   try {
     await db.query(
       `
-    INSERT INTO signup (name, email, passwordHashed) 
+    INSERT INTO user (name, email, passwordHashed) 
     VALUES ($1, $2, $3);
     `,
       [name, email, passwordHashed]
@@ -28,12 +28,11 @@ export async function signIn(req, res) {
 
     await db.query(
       `
-    INSERT INTO signip (idUsuario: checkUser._id,token: "token") 
-    VALUES ($1, $2);
-    `,
-      [idUsuario, token]
+      UPDATE "user" SET token = 'token' WHERE email=('$1');
+      `,
+      [token]
     );
-
+    
     return res.status(200).send(token);
   } catch (error) {
     res.status(500).send(error.message);

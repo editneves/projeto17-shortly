@@ -14,12 +14,12 @@ export async function validSchemasignIn(req, res, next) {
     return res.status(422).send({ errors });
   }
 
-  const checkUser = await db.query("SELECT * FROM signIn WHERE email=$1", [
-    signUp.email,
+  const checkUser = await db.query("SELECT * FROM user WHERE email=$1", [
+    user.email,
   ]);
-
-  if (checkUser.rowCount !== 0) return res.sendStatus(401);
-
+  
+  if (checkUser.rowCount === 0) return res.sendStatus(401);
+// se a contagem de linhas for igual a 0 return status 401, usuario ou senha não existem
   const isCorrectPassword = bcrypt.compareSync(password, checkUser.password);
 
   if (!isCorrectPassword)
