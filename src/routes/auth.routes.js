@@ -5,6 +5,6 @@ import { validSchemaSignUp } from "../middlewares/auth.signUp.middleware.js";
 
 const authRouter = Router();
 
-authRouter.post("/signup", validSchemasignIn, signUp);
-authRouter.post("/signin", validSchemaSignUp, signIn);
+authRouter.post("/signup", validSchemaSignUp, signUp);
+authRouter.post("/signin", validSchemasignIn, signIn);
 export default authRouter;
