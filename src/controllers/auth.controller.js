@@ -34,7 +34,7 @@ export async function signIn(req, res) {
       WHERE "email" = $1;
       `, [email, token]
     );
-    return res.status(200).send(token);
+    return res.status(200).send({ token: token });
   } catch (error) {
     res.status(500).send(error.message);
   }
