@@ -4,23 +4,14 @@ import { db } from "../configs/database.js";
 export async function url(req, res) {
     const { url } = res.locals.url;
     const shortUrl = nanoid(8);
-    const text = '';
-    // generateCode()
-    // function generateCode() {
-    //    console.log("a")
-    //     const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    //     for (let i = 0; i < 5; i++)
-    //         text += possible.charAt(Math.floor(Math.random() * possible.length));
-    //     return text;
-    // }
 
     try {
         await db.query(
             `
-          INSERT INTO urls ("shortUrl", url, "shortenedUrls") 
-          VALUES ($1, $2, $3);
+          INSERT INTO urls ("shortUrl", url) 
+          VALUES ($1, $2);
           `,
-            [shortUrl, url, text ]
+            [shortUrl, url]
         );
         const IdUrl = await db.query('SELECT * FROM urls WHERE url=$1', [url]);
 
@@ -39,22 +30,22 @@ export async function listUrl(req, res) {
     try {
         const urlExist = await db.query('SELECT * FROM urls WHERE id=$1', [id]);
         if (!urlExist.rowCount > 0) return res.sendStatus(404);
-        res.status(200).send(urlExist.rows[0]);
+        res.status(200).send(urlExist.rows[0].id);
 
     } catch (error) {
         res.status(500).send(error.message);
     }
 }
-
+//Aumentar um na contagem de visitas do link.
 export async function redirectUrl(req, res) {
-    const id = Number(req.params.id);
-
+    const shortUrl = req.params.shortUrl;
     try {
-        const urlExist = await db.query('SELECT * FROM urls WHERE id=$1', [id]);
-        if (!urlExist.rowCount > 0) return res.sendStatus(404);
-        res.status(200).send(urlExist.rows[0]);
-        res.redirect(url)
+        const shortUrlExist = await db.query('SELECT *FROM "urls" WHERE "shortUrl"=$1', [shortUrl]);
+        if (shortUrlExist.rowCount < 0) return res.sendStatus(404);
+        res.redirect(shortUrlExist.rows[0].url)
     } catch (error) {
         res.status(500).send(error.message);
     }
-} 
+}
+
+
