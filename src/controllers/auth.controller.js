@@ -41,4 +41,22 @@ export async function signIn(req, res) {
 }
 
 
+export async function usersMe(req, res) {
+  const userId  = res.locals.userId;
+console.log("esse",userId)
+  // try {
+  //     const urlExist = await db.query('SELECT "id", "name", "visitCount" FROM urls WHERE id=$1', [id]);
+  //     if (!urlExist.rowCount > 0) return res.sendStatus(404);
+  //     res.status(200).send(urlExist.rows[0]);
+  // } catch (error) {
+  //     res.status(500).send(error.message);
+  // }
+}
 
+
+
+
+// "id": id do usuário,
+// 	"name": nome do usuário,
+// 	"visitCount": soma da quantidade de visitas de todos os links do usuário,
+// 	"shortenedUrls":
