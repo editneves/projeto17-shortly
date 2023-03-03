@@ -56,7 +56,7 @@ export async function deleteUrl(req, res) {
     const id = res.locals.id;
     console.log(id)
     try {
-        const shortUrlExist = await db.query('UPDATE "urls" SET "shortUrl" = $1  WHERE id = $2', [" ", id]);
+        await db.query('UPDATE "urls" SET "shortUrl" = $1  WHERE "id" = $2', [null, id]);
         // const urlExist = await db.query('SELECT *FROM "urls" WHERE "id"=$1', [id]);
         // console.log(shortUrlExist,urlExist)
        
