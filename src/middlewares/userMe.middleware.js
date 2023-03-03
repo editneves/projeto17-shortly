@@ -9,14 +9,14 @@ export async function validSchemaUserMe(req, res, next) {
     console.log(token)
 
     const tokenExist = await db.query('SELECT *FROM users WHERE token=$1', [token]);
-    const userId = tokenExist.rows[0].userId;
+    const userId = tokenExist.rows[0].id;
     console.log(userId)
-
 
     res.locals.userId = userId;
     next();
 
 }
+
 
 
 
